@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="blue" data-lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>BotDone Analytics — COD Profit Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500&family=Inter:wght@400;500;600;700;800&family=Tajawal:wght@500;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+/* ════════════════════════════════════════════════════
+   ①  THEME TOKENS  — 4 themes, NO pure black
+════════════════════════════════════════════════════ */
+
+/* ── DEEP BLUE  (default) ────────────────────────── */
+[data-theme="blue"]{
+  --bg           : #0b1929;
+  --surf         : #0f2540;
+  --surf2        : #152e4d;
+  --bdr          : #1d3c5e;
+  --bdr-l        : #254e79;
+  --nav          : rgba(11,25,41,.90);
+  --acc          : #38bdf8;
+  --acc-lt       : #7dd3fc;
+  --acc-dk       : #0369a1;
+  --acc-glow     : rgba(56,189,248,.28);
+  --acc-badge    : rgba(56,189,248,.13);
+  --card-shine   : linear-gradient(90deg,transparent,rgba(56,189,248,.35),transparent);
+  --bg-glow-a    : rgba(56,189,248,.055);
+  --bg-glow-b    : rgba(99,102,241,.045);
+  --focus-ring   : rgba(56,189,248,.32);
+  --formula-side : #1d6096;
+  --tx           : #e4f2fd;
+  --tx2          : #8bbad9;
+  --tx3          : #3d6a8e;
+  --tab-act      : rgba(56,189,248,.14);
+  --glow-sm      : 0 0 0 1px var(--acc), 0 0 10px rgba(56,189,248,.30);
+  --glow-md      : 0 0 0 1px var(--acc), 0 0 18px rgba(56,189,248,.28);
+  --modal-bg     : #0d2240;
+  --modal-bdr    : rgba(56,189,248,.35);
+  --dm-bg        : rgba(56,189,248,.06);
+  --dm-bdr       : rgba(56,189,248,.32);
+}
+
+/* ── SOFT AMBER  (Work) ──────────────────────────── */
+[data-theme="amber"]{
+  --bg           : #18130a;
+  --surf         : #231b0e;
+  --surf2        : #2e2313;
+  --bdr          : #3a2e12;
+  --bdr-l        : #52401a;
+  --nav          : rgba(24,19,10,.90);
+  --acc          : #f59e0b;
+  --acc-lt       : #fcd34d;
+  --acc-dk       : #92400e;
+  --acc-glow     : rgba(245,158,11,.28);
+  --acc-badge    : rgba(245,158,11,.13);
+  --card-shine   : linear-gradient(90deg,transparent,rgba(245,158,11,.35),transparent);
+  --bg-glow-a    : rgba(245,158,11,.055);
+  --bg-glow-b    : rgba(217,119,6,.04);
+  --focus-ring   : rgba(245,158,11,.32);
+  --formula-side : #7c5210;
+  --tx           : #fef5d6;
+  --tx2          : #d4a847;
+  --tx3          : #6b4e17;
+  --tab-act      : rgba(245,158,11,.14);
+  --glow-sm      : 0 0 0 1px var(--acc), 0 0 10px rgba(245,158,11,.30);
+  --glow-md      : 0 0 0 1px var(--acc), 0 0 18px rgba(245,158,11,.28);
+  --modal-bg     : #1c1608;
+  --modal-bdr    : rgba(245,158,11,.35);
+  --dm-bg        : rgba(245,158,11,.07);
+  --dm-bdr       : rgba(245,158,11,.35);
+}
+
+/* ── SAGE GREEN  (Focus) ─────────────────────────── */
+[data-theme="sage"]{
+  --bg           : #091710;
+  --surf         : #0d2118;
+  --surf2        : #112b1f;
+  --bdr          : #19392a;
+  --bdr-l        : #234f3a;
+  --nav          : rgba(9,23,16,.90);
+  --acc          : #34d399;
+  --acc-lt       : #6ee7b7;
+  --acc-dk       : #065f46;
+  --acc-glow     : rgba(52,211,153,.28);
+  --acc-badge    : rgba(52,211,153,.13);
+  --card-shine   : linear-gradient(90deg,transparent,rgba(52,211,153,.32),transparent);
+  --bg-glow-a    : rgba(52,211,153,.055);
+  --bg-glow-b    : rgba(16,185,129,.04);
+  --focus-ring   : rgba(52,211,153,.32);
+  --formula-side : #1a6649;
+  --tx           : #d0fae9;
+  --tx2          : #5ec499;
+  --tx3          : #275b40;
+  --tab-act      : rgba(52,211,153,.14);
+  --glow-sm      : 0 0 0 1px var(--acc), 0 0 10px rgba(52,211,153,.30);
+  --glow-md      : 0 0 0 1px var(--acc), 0 0 18px rgba(52,211,153,.28);
+  --modal-bg     : #0b1d13;
+  --modal-bdr    : rgba(52,211,153,.35);
+  --dm-bg        : rgba(52,211,153,.06);
+  --dm-bdr       : rgba(52,211,153,.32);
+}
+
+/* ── DEEP PURPLE  (Creative) ─────────────────────── */
+[data-theme="purple"]{
+  --bg           : #100c1c;
+  --surf         : #18122e;
+  --surf2        : #201840;
+  --bdr          : #2e2055;
+  --bdr-l        : #3e2d72;
+  --nav          : rgba(16,12,28,.90);
+  --acc          : #a78bfa;
+  --acc-lt       : #c4b5fd;
+  --acc-dk       : #5b21b6;
+  --acc-glow     : rgba(167,139,250,.28);
+  --acc-badge    : rgba(167,139,250,.13);
+  --card-shine   : linear-gradient(90deg,transparent,rgba(167,139,250,.32),transparent);
+  --bg-glow-a    : rgba(167,139,250,.055);
+  --bg-glow-b    : rgba(139,92,246,.04);
+  --focus-ring   : rgba(167,139,250,.32);
+  --formula-side : #5b30a6;
+  --tx           : #eeeaff;
+  --tx2          : #a48ce8;
+  --tx3          : #5a3fa0;
+  --tab-act      : rgba(167,139,250,.14);
+  --glow-sm      : 0 0 0 1px var(--acc), 0 0 10px rgba(167,139,250,.30);
+  --glow-md      : 0 0 0 1px var(--acc), 0 0 18px rgba(167,139,250,.28);
+  --modal-bg     : #130f28;
+  --modal-bdr    : rgba(167,139,250,.35);
+  --dm-bg        : rgba(167,139,250,.07);
+  --dm-bdr       : rgba(167,139,250,.35);
+}
+
+/* ── Semantic status (fixed, theme-independent) ── */
+:root{
+  --ok   : #22c55e; --ok-glow : rgba(34,197,94,.13);  --ok-bdr : rgba(34,197,94,.38);
+  --warn : #facc15; --warn-glow: rgba(250,204,21,.13); --warn-bdr: rgba(250,204,21,.38);
+  --bad  : #f87171; --bad-glow : rgba(248,113,113,.13);--bad-bdr : rgba(248,113,113,.38);
+}
+
+/* ════════════════════════════════════════════════════
+   ②  RESET & BASE
+════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background : var(--bg);
+  color      : var(--tx);
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  min-height : 100vh;
+  overflow-x : hidden;
+  transition : background .35s, color .35s;
+  line-height: 1.5;
+}
+
+/* Arabic: Tajawal, heavier base weight */
+[data-lang="ar"] body,
+[data-lang="ar"] * { font-family: 'Tajawal', sans-serif !important; }
+[data-lang="ar"] .mono { font-family: 'DM Mono', monospace !important; }
+
+/* Global ambient glow */
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 45% at 15% 0%,   var(--bg-glow-a) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 35% at 85% 100%,  var(--bg-glow-b) 0%, transparent 55%);
+}
+
+/* ════════════════════════════════════════════════════
+   ③  ICON SYSTEM  (SVG-only, no emoji)
+════════════════════════════════════════════════════ */
+.icon { display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; }
+.icon svg { stroke:currentColor; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+
+/* ════════════════════════════════════════════════════
+   ④  STICKY NAV
+════════════════════════════════════════════════════ */
+.nav {
+  position  : fixed; top:0; left:0; right:0; z-index:400;
+  height    : 64px;
+  display   : flex; align-items: center; gap: 10px;
+  padding   : 0 20px;
+  background: var(--nav);
+  border-bottom: 1px solid var(--bdr-l);
+  backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
+  box-shadow: 0 1px 0 rgba(255,255,255,.04);
+}
+
+/* Brand */
+.brand {
+  display:flex; align-items:center; gap:9px;
+  flex-shrink:0; cursor:pointer; text-decoration:none;
+  user-select:none;
+}
+.brand-mark {
+  width:34px; height:34px; border-radius:9px;
+  background: var(--acc);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'DM Mono',monospace; font-size:14px; font-weight:700; color:#000;
+  box-shadow: 0 0 14px var(--acc-glow);
+  transition: transform .2s;
+  flex-shrink:0;
+}
+.brand:hover .brand-mark { transform: scale(1.06); }
+.brand-name {
+  font-size:14px; font-weight:800; color:var(--tx);
+  letter-spacing:-.01em; white-space:nowrap;
+}
+.brand-name b { color:var(--acc); font-weight:800; }
+
+/* Market tabs — centre */
+.nav-tabs {
+  display:flex; align-items:center; gap:3px;
+  background: rgba(0,0,0,.28);
+  border: 1px solid var(--bdr-l);
+  border-radius: 12px;
+  padding: 4px;
+  margin: 0 auto;
+}
+.ntab {
+  display:flex; align-items:center; gap:7px;
+  padding: 7px 20px;
+  border-radius: 9px;
+  font-size: 12.5px; font-weight: 700;
+  color: var(--tx2); cursor:pointer;
+  border: 1px solid transparent; background: transparent;
+  font-family: inherit;
+  transition: all .22s; white-space:nowrap;
+}
+[data-lang="ar"] .ntab { font-size:13px; font-weight:800; }
+.ntab:hover { color:var(--tx); background:rgba(255,255,255,.05); }
+.ntab.active {
+  background: var(--tab-act);
+  color: var(--acc-lt);
+  border-color: var(--acc);
+  box-shadow: var(--glow-md);
+}
+.ntab .icon svg { width:14px; height:14px; stroke-width:1.8; }
+
+/* Right side */
+.nav-right {
+  display:flex; align-items:center; gap:6px; flex-shrink:0;
+}
+.nav-sep {
+  width:1px; height:28px;
+  background: var(--bdr-l);
+  margin: 0 4px;
+}
+
+/* Labeled control groups */
+.ctrl-group {
+  display:flex; flex-direction:column; align-items:center; gap:2px;
+}
+.ctrl-group-label {
+  font-size: 9.5px; font-weight: 800; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--tx2);
+  white-space: nowrap; line-height:1;
+}
+[data-lang="ar"] .ctrl-group-label {
+  letter-spacing: .04em; font-size:10px;
+}
+
+/* Glow buttons */
+.gbtn {
+  display:flex; align-items:center; gap:7px;
+  background: rgba(0,0,0,.32);
+  border: 1px solid var(--bdr-l);
+  border-radius: 9px;
+  padding: 7px 13px;
+  font-size: 12px; font-weight: 700;
+  color: var(--tx2); cursor:pointer;
+  font-family: inherit;
+  transition: all .22s; white-space:nowrap;
+}
+[data-lang="ar"] .gbtn { font-size:12.5px; font-weight:800; }
+.gbtn:hover,
+.gbtn.active {
+  border-color: var(--acc);
+  color: var(--acc-lt);
+  background: rgba(0,0,0,.42);
+  box-shadow: var(--glow-sm);
+}
+.gbtn .icon svg { width:14px; height:14px; stroke-width:1.8; }
+.gbtn-lbl { line-height:1; }
+
+/* Theme dropdown panel */
+.theme-panel {
+  position: fixed; top:72px; right:20px; z-index:500;
+  width: 228px;
+  background: var(--surf);
+  border: 1px solid var(--acc);
+  box-shadow: var(--glow-sm), 0 16px 48px rgba(0,0,0,.55);
+  border-radius: 14px;
+  padding: 12px;
+  display: none; flex-direction:column; gap:6px;
+  animation: popIn .17s ease;
+}
+[dir="rtl"] .theme-panel { right:auto; left:20px; }
+.theme-panel.open { display:flex; }
+@keyframes popIn { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:none} }
+
+.tp-hdr {
+  font-size:10px; font-weight:800; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--acc);
+  padding-bottom:8px; margin-bottom:2px;
+  border-bottom:1px solid var(--bdr-l);
+}
+[data-lang="ar"] .tp-hdr { letter-spacing:.04em; font-size:11px; }
+
+.topt {
+  display:flex; align-items:center; gap:10px;
+  padding:9px 11px; border-radius:9px; cursor:pointer;
+  border:1px solid transparent;
+  font-size:12.5px; font-weight:700; color:var(--tx2);
+  transition:all .18s;
+}
+[data-lang="ar"] .topt { font-size:13px; font-weight:800; }
+.topt:hover { background:rgba(255,255,255,.05); color:var(--tx); }
+.topt.on {
+  border-color: var(--acc);
+  background: var(--tab-act);
+  color: var(--acc-lt);
+  box-shadow: 0 0 8px var(--acc-glow);
+}
+.tswatch {
+  width:18px; height:18px; border-radius:5px; flex-shrink:0;
+  border:1px solid rgba(255,255,255,.14);
+}
+
+/* ──── Mobile nav ──── */
+@media(max-width:800px){
+  .nav { flex-wrap:wrap; height:auto; padding:10px 14px; gap:8px; }
+  .nav-tabs { margin:0; order:3; width:100%; }
+  .ntab { flex:1; justify-content:center; font-size:11.5px; padding:7px 4px; }
+  .brand-name { font-size:13px; }
+  .gbtn-lbl { display:none; }
+  .gbtn { padding:7px 10px; }
+  .ctrl-group-label { display:none; }
+  .nav-sep { display:none; }
+  .theme-panel { right:10px; left:10px; width:auto; }
+  [dir="rtl"] .theme-panel { right:10px; left:10px; }
+}
+
+/* ════════════════════════════════════════════════════
+   ⑤  PAGE WRAPPER
+════════════════════════════════════════════════════ */
+.wrap {
+  position:relative; z-index:1;
+  max-width:1100px; margin:0 auto;
+  padding: 86px 22px 44px;
+}
+@media(max-width:800px){ .wrap { padding:136px 13px 36px; } }
+
+.mview { display:none; }
+.mview.on { display:block; }
+
+/* ════════════════════════════════════════════════════
+   ⑥  SECTION HEADER
+════════════════════════════════════════════════════ */
+.dash-hdr { text-align:center; margin-bottom:36px; }
+
+.eyebrow {
+  font-family:'DM Mono',monospace; font-size:10.5px; font-weight:500;
+  letter-spacing:.26em; text-transform:uppercase;
+  color:var(--acc); margin-bottom:11px; opacity:.9;
+}
+[data-lang="ar"] .eyebrow { font-family:'Tajawal',sans-serif; letter-spacing:.06em; font-size:12px; font-weight:700; }
+
+.dash-title {
+  font-size:clamp(26px,4vw,42px); font-weight:800;
+  color:var(--tx); line-height:1.12; letter-spacing:-.025em;
+}
+[data-lang="ar"] .dash-title { letter-spacing:0; font-size:clamp(22px,3.5vw,36px); font-weight:900; }
+.dash-title em { color:var(--acc); font-style:normal; }
+
+.dash-sub {
+  margin-top:10px; font-size:14px; font-weight:600;
+  color:var(--tx2);
+}
+
+.shine-bar {
+  width:44px; height:2.5px; background:var(--acc);
+  margin:13px auto 0; border-radius:3px;
+  box-shadow:0 0 8px var(--acc-glow);
+}
+
+/* ════════════════════════════════════════════════════
+   ⑦  GRID & CARDS
+════════════════════════════════════════════════════ */
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.gfull { grid-column:1/-1; }
+.mt { margin-top:16px; }
+@media(max-width:800px){ .g2 { grid-template-columns:1fr; } }
+
+.card {
+  background: var(--surf);
+  border: 1px solid var(--bdr-l);
+  border-radius:16px; padding:24px;
+  position:relative; overflow:hidden;
+  transition: background .35s, border-color .35s;
+}
+.card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:1px;
+  background: var(--card-shine);
+}
+
+.card-title {
+  font-family:'DM Mono',monospace; font-size:10px; font-weight:500;
+  letter-spacing:.22em; text-transform:uppercase;
+  color:var(--acc); margin-bottom:20px;
+}
+[data-lang="ar"] .card-title {
+  font-family:'Tajawal',sans-serif; letter-spacing:.06em;
+  font-size:12px; text-transform:none; font-weight:800;
+}
+
+/* ════════════════════════════════════════════════════
+   ⑧  FORM INPUTS — High-visibility labels
+════════════════════════════════════════════════════ */
+.ig { margin-bottom:15px; }
+.ig:last-child { margin-bottom:0; }
+
+/* Primary label — bold, high-contrast */
+.lbl {
+  font-size:13px; font-weight:700; color:var(--tx);
+  margin-bottom:6px;
+  display:flex; align-items:center; gap:7px; flex-wrap:wrap;
+}
+[data-lang="ar"] .lbl { font-size:14px; font-weight:800; }
+
+.badge {
+  font-family:'DM Mono',monospace; font-size:9px; font-weight:600;
+  background:var(--acc-badge); color:var(--acc-lt);
+  padding:2px 8px; border-radius:5px;
+  letter-spacing:.04em; white-space:nowrap;
+  border:1px solid rgba(255,255,255,.08);
+}
+[data-lang="ar"] .badge { font-family:'Tajawal',sans-serif; font-size:11px; letter-spacing:0; font-weight:700; }
+
+.iw { position:relative; display:flex; align-items:center; }
+
+.pfx {
+  position:absolute; left:13px;
+  font-family:'DM Mono',monospace; font-size:12px; font-weight:500;
+  color:var(--tx2); pointer-events:none; z-index:2;
+}
+[dir="rtl"] .pfx { left:auto; right:13px; }
+
+input[type="number"] {
+  width:100%;
+  background: var(--surf2);
+  border: 1.5px solid var(--bdr-l);
+  border-radius:10px;
+  padding: 11px 13px 11px 34px;
+  font-family:'DM Mono',monospace; font-size:14px; font-weight:500;
+  color:var(--tx); outline:none; direction:ltr;
+  transition: border-color .2s, box-shadow .2s, background .35s;
+  -moz-appearance:textfield;
+}
+[dir="rtl"] input[type="number"] { padding:11px 34px 11px 13px; text-align:right; }
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance:none; }
+input:focus { border-color:var(--acc); box-shadow:0 0 0 3px var(--focus-ring); }
+
+/* Secondary note text — no longer dim grey */
+.inote {
+  margin-top:5px; font-size:12px; font-weight:600;
+  color:var(--tx2);
+  font-family:'DM Mono',monospace;
+}
+[data-lang="ar"] .inote { font-family:'Tajawal',sans-serif; font-size:13px; font-weight:700; }
+
+.hdivider { height:1px; background:var(--bdr-l); margin:16px 0; }
+
+/* ════════════════════════════════════════════════════
+   ⑨  STAT ROWS
+════════════════════════════════════════════════════ */
+.sr {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:9px 0; border-bottom:1px solid var(--bdr); font-size:13px;
+}
+.sr:last-child { border-bottom:none; }
+.sr-l { color:var(--tx2); font-weight:700; }
+[data-lang="ar"] .sr-l { font-weight:800; }
+.sr-v { font-family:'DM Mono',monospace; font-weight:600; color:var(--tx); }
+
+/* ════════════════════════════════════════════════════
+   ⑩  SAFETY BANNER
+════════════════════════════════════════════════════ */
+.sbanner {
+  border-radius:12px; padding:14px 18px;
+  display:flex; align-items:center; gap:13px;
+  margin-bottom:16px; transition:all .3s;
+}
+.sbanner.ok     { background:var(--ok-glow);   border:1px solid var(--ok-bdr);   }
+.sbanner.bad    { background:var(--bad-glow);  border:1px solid var(--bad-bdr);  }
+.sbanner.warn   { background:var(--warn-glow); border:1px solid var(--warn-bdr); }
+
+.sdot {
+  width:9px; height:9px; border-radius:50%; flex-shrink:0;
+  animation:blink 2.2s ease-in-out infinite;
+}
+.sdot.ok     { background:var(--ok);   box-shadow:0 0 8px var(--ok);   }
+.sdot.bad    { background:var(--bad);  box-shadow:0 0 8px var(--bad);  }
+.sdot.warn   { background:var(--warn); box-shadow:0 0 8px var(--warn); }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+.sbanner-body strong {
+  font-size:13.5px; font-weight:800; display:block; margin-bottom:3px;
+}
+[data-lang="ar"] .sbanner-body strong { font-weight:900; }
+.sbanner-body span { font-size:12.5px; font-weight:600; color:var(--tx2); }
+.sbanner.ok   .sbanner-body strong { color:var(--ok);   }
+.sbanner.bad  .sbanner-body strong { color:var(--bad);  }
+.sbanner.warn .sbanner-body strong { color:var(--warn); }
+
+/* ════════════════════════════════════════════════════
+   ⑪  RESULT METRIC CARDS
+════════════════════════════════════════════════════ */
+.rg {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(162px,1fr));
+  gap:12px; margin-bottom:16px;
+}
+.ri {
+  background:var(--surf2); border:1.5px solid var(--bdr-l);
+  border-radius:13px; padding:16px 17px;
+  transition:border-color .22s, box-shadow .22s, background .35s;
+}
+.ri:hover { border-color:var(--acc); box-shadow:0 0 10px var(--acc-glow); }
+
+.ri-label {
+  font-size:10px; font-weight:700; letter-spacing:.07em;
+  text-transform:uppercase; color:var(--tx2);
+  margin-bottom:8px; line-height:1.4;
+}
+[data-lang="ar"] .ri-label {
+  font-family:'Tajawal',sans-serif; letter-spacing:0;
+  font-size:12px; text-transform:none; font-weight:800;
+}
+.ri-val {
+  font-family:'DM Mono',monospace; font-size:21px; font-weight:600;
+  color:var(--tx); line-height:1;
+}
+.ri-val.gold { color:var(--acc-lt); }
+.ri-val.ok   { color:var(--ok);     }
+.ri-val.bad  { color:var(--bad);    }
+.ri-sub {
+  font-family:'DM Mono',monospace; font-size:11px; font-weight:500;
+  color:var(--tx2); margin-top:5px;
+}
+[data-lang="ar"] .ri-sub { font-family:'Tajawal',sans-serif; font-size:12px; font-weight:700; }
+
+/* ════════════════════════════════════════════════════
+   ⑫  BREAKEVEN BAR
+════════════════════════════════════════════════════ */
+.be-wrap { margin-top:6px; }
+.be-row {
+  display:flex; justify-content:space-between;
+  font-size:12.5px; font-weight:700; color:var(--tx2); margin-bottom:6px;
+}
+[data-lang="ar"] .be-row { font-weight:800; }
+.be-track {
+  background:var(--surf2); border-radius:8px; height:8px; overflow:hidden;
+}
+.be-fill { height:100%; border-radius:8px; transition:width .5s ease; }
+.be-foot {
+  display:flex; justify-content:space-between;
+  margin-top:5px; font-family:'DM Mono',monospace;
+  font-size:10px; font-weight:500; color:var(--tx3);
+}
+
+/* ════════════════════════════════════════════════════
+   ⑬  FORMULA NOTE
+════════════════════════════════════════════════════ */
+.fnote {
+  margin-top:13px; padding:11px 16px;
+  background:rgba(0,0,0,.22); border-radius:9px;
+  border-left:3px solid var(--acc);
+  font-family:'DM Mono',monospace; font-size:12px; font-weight:500;
+  color:var(--tx2); line-height:1.75;
+}
+[dir="rtl"] .fnote {
+  border-left:none; border-right:3px solid var(--acc);
+  font-family:'Tajawal',sans-serif; font-size:13px; font-weight:700;
+}
+
+/* ════════════════════════════════════════════════════
+   ⑭  SCENARIO TABLE
+════════════════════════════════════════════════════ */
+.tscroll { overflow-x:auto; }
+.stbl { width:100%; border-collapse:separate; border-spacing:0; }
+.stbl th {
+  font-family:'DM Mono',monospace; font-size:10px; font-weight:700;
+  letter-spacing:.13em; text-transform:uppercase;
+  color:var(--tx2); padding:10px 14px;
+  text-align:left; border-bottom:1.5px solid var(--bdr-l);
+  white-space:nowrap; background:transparent;
+}
+[dir="rtl"] .stbl th {
+  text-align:right; font-family:'Tajawal',sans-serif;
+  letter-spacing:0; font-size:12px; text-transform:none; font-weight:800;
+}
+.stbl td {
+  padding:12px 14px; font-family:'DM Mono',monospace; font-size:13px;
+  font-weight:500; border-bottom:1px solid var(--bdr);
+  vertical-align:middle; white-space:nowrap;
+}
+[dir="rtl"] .stbl td { text-align:right; }
+.stbl tr:last-child td { border-bottom:none; }
+.stbl tbody tr { transition:background .14s; }
+.stbl tbody tr:hover { background:rgba(255,255,255,.03); }
+.scen-rate { font-weight:800; font-size:14px; }
+
+.sbadge {
+  display:inline-block; padding:3px 9px; border-radius:5px;
+  font-family:'DM Mono',monospace; font-size:10px; font-weight:700;
+  letter-spacing:.04em; white-space:nowrap;
+}
+[data-lang="ar"] .sbadge {
+  font-family:'Tajawal',sans-serif; letter-spacing:0; font-size:12px; font-weight:800;
+}
+.sbadge.ok   { background:var(--ok-glow);   color:var(--ok);   }
+.sbadge.warn { background:var(--warn-glow); color:var(--warn); }
+.sbadge.bad  { background:var(--bad-glow);  color:var(--bad);  }
+
+/* ════════════════════════════════════════════════════
+   ⑮  FOOTER
+════════════════════════════════════════════════════ */
+.footer {
+  position:relative; z-index:1;
+  max-width:1100px; margin:0 auto;
+  padding:22px 22px 44px;
+  display:flex; align-items:center; justify-content:space-between;
+  border-top:1px solid var(--bdr-l); flex-wrap:wrap; gap:12px;
+}
+.footer-copy {
+  font-family:'DM Mono',monospace; font-size:12px;
+  font-weight:500; color:var(--tx3);
+}
+.footer-btn {
+  display:flex; align-items:center; gap:6px;
+  font-size:12.5px; font-weight:700; color:var(--tx2);
+  cursor:pointer; background:none; border:none;
+  font-family:inherit; transition:color .2s;
+}
+[data-lang="ar"] .footer-btn { font-weight:800; }
+.footer-btn:hover { color:var(--acc-lt); }
+.footer-btn svg { width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; }
+
+/* ════════════════════════════════════════════════════
+   ⑯  MODAL  — Glow border, high-contrast
+════════════════════════════════════════════════════ */
+.modal-overlay {
+  position:fixed; inset:0; z-index:600;
+  background:rgba(0,0,0,.80);
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  display:none; align-items:center; justify-content:center; padding:18px;
+}
+.modal-overlay.open { display:flex; animation:fadeOv .22s ease; }
+@keyframes fadeOv { from{opacity:0} to{opacity:1} }
+
+.modal {
+  width:100%; max-width:540px;
+  background:var(--modal-bg);
+  border:1.5px solid var(--modal-bdr);
+  box-shadow: var(--glow-md), 0 28px 80px rgba(0,0,0,.65);
+  border-radius:20px; padding:36px;
+  position:relative;
+  animation:slideM .24s ease;
+}
+@media(max-width:580px){ .modal { padding:24px 18px; } }
+@keyframes slideM { from{transform:translateY(16px);opacity:0} to{transform:none;opacity:1} }
+
+.modal-x {
+  position:absolute; top:16px; right:16px;
+  width:32px; height:32px; border-radius:8px;
+  background:var(--surf2); border:1px solid var(--bdr-l);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; color:var(--tx2); transition:all .2s;
+}
+[dir="rtl"] .modal-x { right:auto; left:16px; }
+.modal-x:hover { border-color:var(--acc); color:var(--tx); box-shadow:0 0 8px var(--acc-glow); }
+.modal-x svg { width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2.2; stroke-linecap:round; }
+
+.modal-eyebrow {
+  font-family:'DM Mono',monospace; font-size:10px; font-weight:500;
+  letter-spacing:.22em; text-transform:uppercase;
+  color:var(--acc); margin-bottom:9px;
+}
+[data-lang="ar"] .modal-eyebrow { font-family:'Tajawal',sans-serif; letter-spacing:.06em; font-size:12px; font-weight:700; }
+.modal-title {
+  font-size:23px; font-weight:800; color:var(--tx);
+  letter-spacing:-.025em; margin-bottom:14px; line-height:1.2;
+}
+[data-lang="ar"] .modal-title { letter-spacing:0; font-size:20px; font-weight:900; }
+.modal-body {
+  font-size:14px; font-weight:600; color:var(--tx2);
+  line-height:1.8; margin-bottom:22px;
+}
+[data-lang="ar"] .modal-body { font-weight:700; }
+
+.modal-domain {
+  background:var(--dm-bg); border:1.5px solid var(--dm-bdr);
+  border-radius:13px; padding:20px 22px; margin-bottom:22px;
+}
+.md-tag {
+  font-family:'DM Mono',monospace; font-size:9.5px; font-weight:700;
+  letter-spacing:.18em; text-transform:uppercase; color:var(--acc);
+  margin-bottom:8px;
+}
+[data-lang="ar"] .md-tag { font-family:'Tajawal',sans-serif; letter-spacing:.05em; font-size:11px; font-weight:800; }
+.md-title { font-size:15.5px; font-weight:800; color:var(--acc-lt); margin-bottom:7px; }
+[data-lang="ar"] .md-title { font-weight:900; }
+.md-desc { font-size:13.5px; font-weight:600; color:var(--tx2); line-height:1.65; margin-bottom:14px; }
+[data-lang="ar"] .md-desc { font-weight:700; }
+
+.md-emails { display:flex; flex-direction:column; gap:7px; }
+.md-email {
+  display:flex; align-items:center; gap:10px;
+  font-family:'DM Mono',monospace; font-size:12px; font-weight:600;
+  color:var(--tx); background:var(--surf2);
+  border:1.5px solid var(--bdr-l); border-radius:9px;
+  padding:10px 14px; text-decoration:none;
+  transition:border-color .2s, box-shadow .2s, color .2s;
+}
+.md-email:hover { border-color:var(--acc); box-shadow:0 0 9px var(--acc-glow); color:var(--acc-lt); }
+.md-email svg { width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; opacity:.7; }
+
+.modal-cta {
+  width:100%; padding:13px; border-radius:11px;
+  background:var(--acc); color:#000;
+  font-size:13.5px; font-weight:800; font-family:inherit;
+  border:none; cursor:pointer;
+  box-shadow:0 0 16px var(--acc-glow);
+  transition:opacity .2s, transform .15s;
+}
+.modal-cta:hover { opacity:.86; transform:translateY(-1px); }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════
+     NAV
+════════════════════════════ -->
+<nav class="nav">
+
+  <!-- Brand (opens About modal) -->
+  <div class="brand" onclick="openModal()">
+    <div class="brand-mark">B</div>
+    <div class="brand-name">Bot<b>Done</b> Analytics</div>
+  </div>
+
+  <!-- Market tabs -->
+  <div class="nav-tabs">
+    <button class="ntab active" id="tab-ly" onclick="switchMarket('libya')">
+      <!-- Globe + meridians icon -->
+      <span class="icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" stroke-width="1.9">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/>
+        </svg>
+      </span>
+      <span id="tly">Libya Market</span>
+    </button>
+    <button class="ntab" id="tab-eu" onclick="switchMarket('europe')">
+      <span class="icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" stroke-width="1.9">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/>
+          <path d="M5 7h2M17 7h2M4 17h3M17 17h3"/>
+        </svg>
+      </span>
+      <span id="teu">Europe Market</span>
+    </button>
+  </div>
+
+  <!-- Right controls -->
+  <div class="nav-right">
+
+    <!-- Appearance -->
+    <div class="ctrl-group">
+      <span class="ctrl-group-label" id="lbl-app">Appearance</span>
+      <button class="gbtn" id="themeBtn" onclick="toggleThemePanel(event)">
+        <span class="icon" id="themeIco">
+          <!-- Sun icon — swapped to moon on blue theme -->
+          <svg viewBox="0 0 24 24" width="14" height="14" stroke-width="1.9">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+        </span>
+        <span class="gbtn-lbl" id="themeLbl">Theme</span>
+      </button>
+    </div>
+
+    <div class="nav-sep"></div>
+
+    <!-- Language -->
+    <div class="ctrl-group">
+      <span class="ctrl-group-label" id="lbl-lang">Language</span>
+      <button class="gbtn" onclick="toggleLang()">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" width="14" height="14" stroke-width="1.9">
+            <path d="M5 8l6 10M19 8l-6 10M3 11h8M13 11h8"/>
+            <path d="M3 5h10v1M8 5v3"/>
+          </svg>
+        </span>
+        <span class="gbtn-lbl" id="langLbl">عربي</span>
+      </button>
+    </div>
+
+  </div><!-- /nav-right -->
+</nav>
+
+<!-- Theme panel -->
+<div class="theme-panel" id="themePanel">
+  <div class="tp-hdr" id="tp-hdr">Select Theme</div>
+  <div class="topt" data-t="blue" onclick="applyTheme('blue')">
+    <div class="tswatch" style="background:linear-gradient(135deg,#0b1929 50%,#38bdf8)"></div>
+    <span id="tn-blue">Deep Blue</span>
+  </div>
+  <div class="topt" data-t="amber" onclick="applyTheme('amber')">
+    <div class="tswatch" style="background:linear-gradient(135deg,#18130a 50%,#f59e0b)"></div>
+    <span id="tn-amber">Soft Amber</span>
+  </div>
+  <div class="topt" data-t="sage" onclick="applyTheme('sage')">
+    <div class="tswatch" style="background:linear-gradient(135deg,#091710 50%,#34d399)"></div>
+    <span id="tn-sage">Sage Green</span>
+  </div>
+  <div class="topt" data-t="purple" onclick="applyTheme('purple')">
+    <div class="tswatch" style="background:linear-gradient(135deg,#100c1c 50%,#a78bfa)"></div>
+    <span id="tn-purple">Deep Purple</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+     CONTENT
+════════════════════════════ -->
+<div class="wrap">
+
+  <!-- ── LIBYA ── -->
+  <div class="mview on" id="view-libya">
+    <div class="dash-hdr">
+      <div class="eyebrow" id="ly_ey">Cash on Delivery · Libya Market</div>
+      <div class="dash-title"><span id="ly_t1">COD Profit</span> <em id="ly_t2">Calculator</em></div>
+      <p class="dash-sub" id="ly_sub">Precision pricing for the Libyan market — customisable ad safety buffer</p>
+      <div class="shine-bar"></div>
+    </div>
+
+    <div class="g2" style="margin-bottom:16px">
+      <!-- Pricing card -->
+      <div class="card">
+        <div class="card-title" id="ly_c1">01 — Pricing Setup</div>
+        <div class="ig">
+          <div class="lbl" id="ly_lpc">Product Cost</div>
+          <div class="iw"><span class="pfx">$</span><input type="number" id="ly_pc" value="15" min="0" step="0.01" oninput="calcLibya()"></div>
+        </div>
+        <div class="ig">
+          <div class="lbl" id="ly_ldp">Desired Net Profit</div>
+          <div class="iw"><span class="pfx">$</span><input type="number" id="ly_dp" value="10" min="0" step="0.01" oninput="calcLibya()"></div>
+        </div>
+        <div class="ig">
+          <div class="lbl"><span id="ly_lfc">Fulfillment Cost</span> <span class="badge" id="ly_bfc">Delivered Only</span></div>
+          <div class="iw"><span class="pfx">$</span><input type="number" id="ly_fc" value="3" min="0" step="0.01" oninput="calcLibya()"></div>
+        </div>
+        <div class="ig">
+          <div class="lbl" id="ly_lad">FB Ad Cost / Lead</div>
+          <div class="iw"><span class="pfx">$</span><input type="number" id="ly_ad" value="1.5" min="0" step="0.01" oninput="calcLibya()"></div>
+        </div>
+        <div class="ig">
+          <div class="lbl"><span id="ly_lmx">Ad Cost Multiplier</span> <span class="badge" id="ly_bmx">Safety Buffer</span></div>
+          <div class="iw"><span class="pfx">×</span><input type="number" id="ly_mx" value="3" min="1" step="0.1" oninput="calcLibya()"></div>
+          <div class="inote" id="ly_anote">→ Effective buffer: $<span id="ly_abuf">4.50</span></div>
+        </div>
+        <div class="ig">
+          <div class="lbl" id="ly_lex">Exchange Rate</div>
+          <div class="iw">
+            <span class="pfx" id="ly_exPfx" style="font-size:11px;min-width:46px">LYD/$</span>
+            <input type="number" id="ly_ex" value="10.9" min="0" step="0.01" oninput="calcLibya()" style="padding-left:56px">
+          </div>
+        </div>
+      </div>
+
+      <!-- Performance card -->
+      <div class="card">
+        <div class="card-title" id="ly_c2">02 — Campaign Performance</div>
+        <div class="ig">
+          <div class="lbl" id="ly_ltl">Total Leads</div>
+          <div class="iw"><span class="pfx">#</span><input type="number" id="ly_tl" value="100" min="0" step="1" oninput="calcLibya()"></div>
+        </div>
+        <div class="ig">
+          <div class="lbl" id="ly_lcr">Confirmation Rate</div>
+          <div class="iw"><span class="pfx">%</span><input type="number" id="ly_cr" value="60" min="0" max="100" step="0.1" oninput="calcLibya()"></div>
+          <div class="inote"><span id="ly_nconf">Confirmed:</span> <span id="ly_conf">60</span></div>
+        </div>
+        <div class="ig">
+          <div class="lbl" id="ly_ldr">Delivery Rate</div>
+          <div class="iw"><span class="pfx">%</span><input type="number" id="ly_dr" value="30" min="0" max="100" step="0.1" oninput="calcLibya()"></div>
+          <div class="inote"><span id="ly_ndeliv">Delivered:</span> <span id="ly_deliv">18</span></div>
+        </div>
+        <div class="hdivider"></div>
+        <div class="sr"><span class="sr-l" id="ly_lts">Total Ad Spend</span><span class="sr-v" id="ly_spend">$150.00</span></div>
+        <div class="sr"><span class="sr-l" id="ly_lcs">Confirmed Orders</span><span class="sr-v" id="ly_cstat">60</span></div>
+        <div class="sr"><span class="sr-l" id="ly_lds">Delivered Orders</span><span class="sr-v" id="ly_dstat">18</span></div>
+      </div>
+    </div>
+
+    <!-- Results card -->
+    <div class="card gfull mt" style="margin-bottom:16px">
+      <div class="card-title" id="ly_c3">03 — Pricing Results</div>
+      <div class="sbanner" id="ly_sbanner"><div class="sdot" id="ly_sdot"></div><div class="sbanner-body"><strong id="ly_stit">—</strong><span id="ly_smsg">—</span></div></div>
+      <div class="rg">
+        <div class="ri"><div class="ri-label" id="ly_rtpu">Target Sale Price</div><div class="ri-val gold" id="ly_tusd">$0.00</div><div class="ri-sub">USD</div></div>
+        <div class="ri"><div class="ri-label" id="ly_rtpl">Sale Price (LYD)</div><div class="ri-val gold" id="ly_tlyd">0.00</div><div class="ri-sub" id="ly_rlyd">Libyan Dinar</div></div>
+        <div class="ri"><div class="ri-label" id="ly_rcpa">Real CPA</div><div class="ri-val" id="ly_cpa">$0.00</div><div class="ri-sub" id="ly_rcpas">Cost / Confirmed</div></div>
+        <div class="ri"><div class="ri-label" id="ly_rnp">Net Profit</div><div class="ri-val" id="ly_np">$0.00</div><div class="ri-sub" id="ly_rnps">This Campaign</div></div>
+        <div class="ri"><div class="ri-label" id="ly_rbe">Breakeven Rate</div><div class="ri-val" id="ly_be">0%</div><div class="ri-sub" id="ly_rbes">Min. delivery rate</div></div>
+        <div class="ri"><div class="ri-label" id="ly_rrev">Total Revenue</div><div class="ri-val" id="ly_rev">$0.00</div><div class="ri-sub" id="ly_rrevs">Delivered orders</div></div>
+      </div>
+      <div class="be-wrap">
+        <div class="be-row">
+          <span id="ly_beth">Breakeven Threshold</span>
+          <span><span id="ly_becur">Current:</span> <span id="ly_cdr" style="font-family:'DM Mono',monospace;color:var(--tx)">0%</span> <span id="ly_bewrd">delivery rate</span></span>
+        </div>
+        <div class="be-track"><div class="be-fill" id="ly_bfill" style="width:0%"></div></div>
+        <div class="be-foot"><span>0%</span><span id="ly_bemark">—</span><span>100%</span></div>
+      </div>
+      <div class="fnote">
+        <strong id="ly_flbl">Formula:</strong><span id="ly_fst"> Target = Cost + (Ad × Multiplier) + Fulfillment + Profit</span><br>
+        <span id="ly_fdsp" style="opacity:.8">—</span>
+      </div>
+    </div>
+
+    <!-- Scenario card -->
+    <div class="card gfull">
+      <div class="card-title" id="ly_c4">04 — Scenario Analysis</div>
+      <p style="font-size:13px;font-weight:600;color:var(--tx2);margin-bottom:14px" id="ly_sdesc">Projected outcomes at different delivery rates.</p>
+      <div class="tscroll"><table class="stbl"><thead><tr>
+        <th id="ly_th1">Rate</th><th id="ly_th2">Delivered</th><th id="ly_th3">Revenue</th>
+        <th id="ly_th4">Costs</th><th id="ly_th5">Net Profit</th><th id="ly_th6">ROI</th><th id="ly_th7">Status</th>
+      </tr></thead><tbody id="ly_tbody"></tbody></table></div>
+    </div>
+  </div><!-- /libya -->
+
+  <!-- ── EUROPE ── -->
+  <div class="mview" id="view-europe">
+    <div class="dash-hdr">
+      <div class="eyebrow" id="eu_ey">Cash on Delivery · Europe Market</div>
+      <div class="dash-title"><span id="eu_t1">COD Profit</span> <em id="eu_t2">Calculator</em></div>
+      <p class="dash-sub" id="eu_sub">Custom multiplier for European markets — adjust per country performance</p>
+      <div class="shine-bar"></div>
+    </div>
+
+    <div class="g2" style="margin-bottom:16px">
+      <div class="card">
+        <div class="card-title" id="eu_c1">01 — Pricing Setup</div>
+        <div class="ig">
+          <div class="lbl" id="eu_lpc">Product Cost</div>
+          <div class="iw"><span class="pfx">$</span><input type="number" id="eu_pc" value="20" min="0" step="0.01" oninput="calcEurope()"></div>
+        </div>
+        <div class="ig">
+          <div class="lbl" id="eu_ldp">Desired Net Profit</div>
+          <div class="iw"><span class="pfx">$</span><input type="number" id="eu_dp" value="15" min="0" step="0.01" oninput="calcEurope()"></div>
+        </div>
+        <div class="ig">
+          <div class="lbl"><span id="eu_lfc">Fulfillment Cost</span> <span class="badge" id="eu_bfc">Delivered Only</span></div>
+          <div class="iw"><span class="pfx">$</span><input type="number" id="eu_fc" value="5" min="0" step="0.01" oninput="calcEurope()"></div>
+        </div>
+        <div class="ig">
+          <div class="lbl" id="eu_lad">FB Ad Cost / Lead</div>
+          <div class="iw"><span class="pfx">$</span><input type="number" id="eu_ad" value="2" min="0" step="0.01" oninput="calcEurope()"></div>
+        </div>
+        <div class="ig">
+          <div class="lbl"><span id="eu_lmx">Ad Cost Multiplier</span> <span class="badge" id="eu_bmx">Safety Buffer</span></div>
+          <div class="iw"><span class="pfx">×</span><input type="number" id="eu_mx" value="2" min="1" step="0.1" oninput="calcEurope()"></div>
+          <div class="inote" id="eu_anote">→ Effective buffer: $<span id="eu_abuf">4.00</span></div>
+        </div>
+        <div class="ig">
+          <div class="lbl" id="eu_lex">Exchange Rate</div>
+          <div class="iw">
+            <span class="pfx" id="eu_exPfx" style="font-size:11px;min-width:40px">€/$</span>
+            <input type="number" id="eu_ex" value="1.08" min="0" step="0.01" oninput="calcEurope()" style="padding-left:50px">
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title" id="eu_c2">02 — Campaign Performance</div>
+        <div class="ig">
+          <div class="lbl" id="eu_ltl">Total Leads</div>
+          <div class="iw"><span class="pfx">#</span><input type="number" id="eu_tl" value="100" min="0" step="1" oninput="calcEurope()"></div>
+        </div>
+        <div class="ig">
+          <div class="lbl" id="eu_lcr">Confirmation Rate</div>
+          <div class="iw"><span class="pfx">%</span><input type="number" id="eu_cr" value="55" min="0" max="100" step="0.1" oninput="calcEurope()"></div>
+          <div class="inote"><span id="eu_nconf">Confirmed:</span> <span id="eu_conf">55</span></div>
+        </div>
+        <div class="ig">
+          <div class="lbl" id="eu_ldr">Delivery Rate</div>
+          <div class="iw"><span class="pfx">%</span><input type="number" id="eu_dr" value="40" min="0" max="100" step="0.1" oninput="calcEurope()"></div>
+          <div class="inote"><span id="eu_ndeliv">Delivered:</span> <span id="eu_deliv">22</span></div>
+        </div>
+        <div class="hdivider"></div>
+        <div class="sr"><span class="sr-l" id="eu_lts">Total Ad Spend</span><span class="sr-v" id="eu_spend">$200.00</span></div>
+        <div class="sr"><span class="sr-l" id="eu_lcs">Confirmed Orders</span><span class="sr-v" id="eu_cstat">55</span></div>
+        <div class="sr"><span class="sr-l" id="eu_lds">Delivered Orders</span><span class="sr-v" id="eu_dstat">22</span></div>
+      </div>
+    </div>
+
+    <div class="card gfull mt" style="margin-bottom:16px">
+      <div class="card-title" id="eu_c3">03 — Pricing Results</div>
+      <div class="sbanner" id="eu_sbanner"><div class="sdot" id="eu_sdot"></div><div class="sbanner-body"><strong id="eu_stit">—</strong><span id="eu_smsg">—</span></div></div>
+      <div class="rg">
+        <div class="ri"><div class="ri-label" id="eu_rtpu">Target Sale Price</div><div class="ri-val gold" id="eu_tusd">$0.00</div><div class="ri-sub">USD</div></div>
+        <div class="ri"><div class="ri-label" id="eu_rtpl">Sale Price (EUR)</div><div class="ri-val gold" id="eu_teur">0.00</div><div class="ri-sub" id="eu_reur">Euro</div></div>
+        <div class="ri"><div class="ri-label" id="eu_rcpa">Real CPA</div><div class="ri-val" id="eu_cpa">$0.00</div><div class="ri-sub" id="eu_rcpas">Cost / Confirmed</div></div>
+        <div class="ri"><div class="ri-label" id="eu_rnp">Net Profit</div><div class="ri-val" id="eu_np">$0.00</div><div class="ri-sub" id="eu_rnps">This Campaign</div></div>
+        <div class="ri"><div class="ri-label" id="eu_rbe">Breakeven Rate</div><div class="ri-val" id="eu_be">0%</div><div class="ri-sub" id="eu_rbes">Min. delivery rate</div></div>
+        <div class="ri"><div class="ri-label" id="eu_rrev">Total Revenue</div><div class="ri-val" id="eu_rev">$0.00</div><div class="ri-sub" id="eu_rrevs">Delivered orders</div></div>
+      </div>
+      <div class="be-wrap">
+        <div class="be-row">
+          <span id="eu_beth">Breakeven Threshold</span>
+          <span><span id="eu_becur">Current:</span> <span id="eu_cdr" style="font-family:'DM Mono',monospace;color:var(--tx)">0%</span> <span id="eu_bewrd">delivery rate</span></span>
+        </div>
+        <div class="be-track"><div class="be-fill" id="eu_bfill" style="width:0%"></div></div>
+        <div class="be-foot"><span>0%</span><span id="eu_bemark">—</span><span>100%</span></div>
+      </div>
+      <div class="fnote">
+        <strong id="eu_flbl">Formula:</strong><span id="eu_fst"> Target = Cost + (Ad × Multiplier) + Fulfillment + Profit</span><br>
+        <span id="eu_fdsp" style="opacity:.8">—</span>
+      </div>
+    </div>
+
+    <div class="card gfull">
+      <div class="card-title" id="eu_c4">04 — Scenario Analysis</div>
+      <p style="font-size:13px;font-weight:600;color:var(--tx2);margin-bottom:14px" id="eu_sdesc">Projected outcomes at different delivery rates.</p>
+      <div class="tscroll"><table class="stbl"><thead><tr>
+        <th id="eu_th1">Rate</th><th id="eu_th2">Delivered</th><th id="eu_th3">Revenue</th>
+        <th id="eu_th4">Costs</th><th id="eu_th5">Net Profit</th><th id="eu_th6">ROI</th><th id="eu_th7">Status</th>
+      </tr></thead><tbody id="eu_tbody"></tbody></table></div>
+    </div>
+  </div><!-- /europe -->
+
+</div><!-- /wrap -->
+
+<!-- Footer -->
+<footer class="footer">
+  <span class="footer-copy">© 2025 BotDone Analytics</span>
+  <button class="footer-btn" onclick="openModal()">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+    <span id="ft-about">About Us</span>
+  </button>
+</footer>
+
+<!-- ════════════════════════════
+     MODAL
+════════════════════════════ -->
+<div class="modal-overlay" id="mOverlay" onclick="handleOvClick(event)">
+  <div class="modal">
+    <button class="modal-x" onclick="closeModal()">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="modal-eyebrow" id="m_ey">Business Intelligence Tool</div>
+    <div class="modal-title"   id="m_tit">About BotDone Analytics</div>
+    <div class="modal-body"    id="m_bod">This platform is a specialized Business Intelligence tool designed for high-precision Cash On Delivery (COD) profit calculation, specifically optimized for emerging markets. It helps entrepreneurs factor in hidden costs like confirmation rates, delivery ratios, and ad-spend buffers.</div>
+    <div class="modal-domain">
+      <div class="md-tag"   id="m_dtag">Domain For Sale</div>
+      <div class="md-title" id="m_dtit">Premium Domain Available</div>
+      <div class="md-desc"  id="m_ddesc">This premium domain is available for acquisition. Reach out directly:</div>
+      <div class="md-emails">
+        <a href="mailto:codwep2@gmail.com" class="md-email">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          codwep2@gmail.com
+        </a>
+        <a href="mailto:ys.yacine.siousiou@gmail.com" class="md-email">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          ys.yacine.siousiou@gmail.com
+        </a>
+      </div>
+    </div>
+    <button class="modal-cta" id="m_cta" onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+     SCRIPT
+════════════════════════════ -->
+<script>
+/* ── Translations ─────────────────────────────────── */
+const LANG = {
+en:{
+  tly:'Libya Market', teu:'Europe Market',
+  lbl_app:'Appearance', lbl_lang:'Language',
+  themeLbl:'Theme', langLbl:'عربي',
+  ft_about:'About Us',
+  tp_hdr:'Select Theme',
+  tn_blue:'Deep Blue', tn_amber:'Soft Amber', tn_sage:'Sage Green', tn_purple:'Deep Purple',
+
+  m_ey:'Business Intelligence Tool',
+  m_tit:'About BotDone Analytics',
+  m_bod:'This platform is a specialized Business Intelligence tool designed for high-precision Cash On Delivery (COD) profit calculation, specifically optimized for emerging markets. It helps entrepreneurs factor in hidden costs like confirmation rates, delivery ratios, and ad-spend buffers.',
+  m_dtag:'Domain For Sale', m_dtit:'Premium Domain Available',
+  m_ddesc:'This premium domain is available for acquisition. Reach out directly:',
+  m_cta:'Close',
+
+  /* Libya */
+  ly_ey:'Cash on Delivery · Libya Market',
+  ly_t1:'COD Profit', ly_t2:'Calculator',
+  ly_sub:'Precision pricing for the Libyan market — customisable ad safety buffer',
+  ly_c1:'01 — Pricing Setup', ly_c2:'02 — Campaign Performance',
+  ly_c3:'03 — Pricing Results', ly_c4:'04 — Scenario Analysis',
+  ly_lpc:'Product Cost', ly_ldp:'Desired Net Profit',
+  ly_lfc:'Fulfillment Cost', ly_bfc:'Delivered Only',
+  ly_lad:'FB Ad Cost / Lead',
+  ly_lmx:'Ad Cost Multiplier', ly_bmx:'Safety Buffer',
+  ly_anote_pre:'→ Effective buffer: $',
+  ly_lex:'Exchange Rate', ly_ltl:'Total Leads',
+  ly_lcr:'Confirmation Rate', ly_nconf:'Confirmed:',
+  ly_ldr:'Delivery Rate', ly_ndeliv:'Delivered:',
+  ly_lts:'Total Ad Spend', ly_lcs:'Confirmed Orders', ly_lds:'Delivered Orders',
+  ly_rtpu:'Target Sale Price', ly_rtpl:'Sale Price (LYD)', ly_rlyd:'Libyan Dinar',
+  ly_rcpa:'Real CPA', ly_rcpas:'Cost / Confirmed',
+  ly_rnp:'Net Profit', ly_rnps:'This Campaign',
+  ly_rbe:'Breakeven Rate', ly_rbes:'Min. delivery rate',
+  ly_rrev:'Total Revenue', ly_rrevs:'Delivered orders',
+  ly_beth:'Breakeven Threshold', ly_becur:'Current:', ly_bewrd:'delivery rate',
+  ly_bemark_pre:'Breakeven:',
+  ly_flbl:'Formula:', ly_fst:' Target = Cost + (Ad × Multiplier) + Fulfillment + Profit',
+  ly_sdesc:'Projected outcomes at different delivery rates.',
+  ly_th1:'Rate', ly_th2:'Delivered', ly_th3:'Revenue',
+  ly_th4:'Costs', ly_th5:'Net Profit', ly_th6:'ROI', ly_th7:'Status',
+
+  /* Europe */
+  eu_ey:'Cash on Delivery · Europe Market',
+  eu_t1:'COD Profit', eu_t2:'Calculator',
+  eu_sub:'Custom multiplier for European markets — adjust per country performance',
+  eu_c1:'01 — Pricing Setup', eu_c2:'02 — Campaign Performance',
+  eu_c3:'03 — Pricing Results', eu_c4:'04 — Scenario Analysis',
+  eu_lpc:'Product Cost', eu_ldp:'Desired Net Profit',
+  eu_lfc:'Fulfillment Cost', eu_bfc:'Delivered Only',
+  eu_lad:'FB Ad Cost / Lead',
+  eu_lmx:'Ad Cost Multiplier', eu_bmx:'Safety Buffer',
+  eu_anote_pre:'→ Effective buffer: $',
+  eu_lex:'Exchange Rate', eu_ltl:'Total Leads',
+  eu_lcr:'Confirmation Rate', eu_nconf:'Confirmed:',
+  eu_ldr:'Delivery Rate', eu_ndeliv:'Delivered:',
+  eu_lts:'Total Ad Spend', eu_lcs:'Confirmed Orders', eu_lds:'Delivered Orders',
+  eu_rtpu:'Target Sale Price', eu_rtpl:'Sale Price (EUR)', eu_reur:'Euro',
+  eu_rcpa:'Real CPA', eu_rcpas:'Cost / Confirmed',
+  eu_rnp:'Net Profit', eu_rnps:'This Campaign',
+  eu_rbe:'Breakeven Rate', eu_rbes:'Min. delivery rate',
+  eu_rrev:'Total Revenue', eu_rrevs:'Delivered orders',
+  eu_beth:'Breakeven Threshold', eu_becur:'Current:', eu_bewrd:'delivery rate',
+  eu_bemark_pre:'Breakeven:',
+  eu_flbl:'Formula:', eu_fst:' Target = Cost + (Ad × Multiplier) + Fulfillment + Profit',
+  eu_sdesc:'Projected outcomes at different delivery rates.',
+  eu_th1:'Rate', eu_th2:'Delivered', eu_th3:'Revenue',
+  eu_th4:'Costs', eu_th5:'Net Profit', eu_th6:'ROI', eu_th7:'Status',
+
+  /* Shared */
+  bProfit:'Profitable', bBreak:'Breakeven', bLoss:'Loss Risk',
+  sOkT:'✓ Profitable Zone',   sOkM  :d=>`Delivery ${d}% > 25% — campaign is profitable.`,
+  sWnT:'⚠ Borderline Zone',  sWnM  :d=>`Delivery ${d}% is 20–25% — optimise fulfillment.`,
+  sBdT:'✕ High Risk',         sBdM  :d=>`Delivery ${d}% < 20% — high risk of loss.`,
+  fmtF:(pc,buf,mx,fc,dp,tp)=>`$${pc} + $${buf}(ad×${mx}) + $${fc} + $${dp} = $${tp}`,
+},
+
+ar:{
+  tly:'سوق ليبيا', teu:'سوق أوروبا',
+  lbl_app:'المظهر', lbl_lang:'اللغة',
+  themeLbl:'المظهر', langLbl:'English',
+  ft_about:'من نحن',
+  tp_hdr:'اختر المظهر',
+  tn_blue:'الأزرق العميق', tn_amber:'الكهرماني الهادئ', tn_sage:'الأخضر المريمي', tn_purple:'البنفسجي الداكن',
+
+  m_ey:'أداة ذكاء الأعمال',
+  m_tit:'عن BotDone Analytics',
+  m_bod:'هذه المنصة أداة متخصصة لذكاء الأعمال، مصممة لحساب أرباح الدفع عند الاستلام (COD) بدقة عالية، ومُحسَّنة للأسواق الناشئة. تساعد رواد الأعمال على احتساب التكاليف الخفية كنسب التأكيد ومعدلات التوصيل واحتياطيات الإنفاق الإعلاني.',
+  m_dtag:'النطاق للبيع', m_dtit:'نطاق مميز متاح للاقتناء',
+  m_ddesc:'هذا النطاق المميز متاح للبيع. تواصل معنا مباشرة:',
+  m_cta:'إغلاق',
+
+  ly_ey:'الدفع عند الاستلام · السوق الليبي',
+  ly_t1:'حاسبة أرباح', ly_t2:'COD',
+  ly_sub:'تسعير دقيق للسوق الليبي — معامل أمان الإعلانات قابل للتخصيص',
+  ly_c1:'٠١ — إعداد التسعير', ly_c2:'٠٢ — أداء الحملة',
+  ly_c3:'٠٣ — نتائج التسعير', ly_c4:'٠٤ — تحليل السيناريوهات',
+  ly_lpc:'تكلفة المنتج', ly_ldp:'صافي الربح المطلوب',
+  ly_lfc:'مصاريف اللوجستيك', ly_bfc:'على الموصلة فقط',
+  ly_lad:'تكلفة الإعلان / طلب',
+  ly_lmx:'معامل أمان الإعلانات', ly_bmx:'معامل الضرب',
+  ly_anote_pre:'← الاحتياطي الفعلي: $',
+  ly_lex:'سعر الصرف', ly_ltl:'إجمالي الطلبات',
+  ly_lcr:'نسبة التأكيد', ly_nconf:'المؤكدة:',
+  ly_ldr:'نسبة التوصيل', ly_ndeliv:'الموصلة:',
+  ly_lts:'إجمالي الإنفاق', ly_lcs:'الطلبات المؤكدة', ly_lds:'الطلبات الموصلة',
+  ly_rtpu:'سعر البيع المستهدف', ly_rtpl:'السعر (دينار)', ly_rlyd:'دينار ليبي',
+  ly_rcpa:'تكلفة الاستحواذ الفعلية', ly_rcpas:'التكلفة / مؤكد',
+  ly_rnp:'صافي الربح', ly_rnps:'الحملة الحالية',
+  ly_rbe:'نقطة التعادل', ly_rbes:'أدنى نسبة توصيل',
+  ly_rrev:'إجمالي الإيرادات', ly_rrevs:'الطلبات الموصلة',
+  ly_beth:'عتبة التعادل', ly_becur:'الحالي:', ly_bewrd:'نسبة توصيل',
+  ly_bemark_pre:'نقطة التعادل:',
+  ly_flbl:'المعادلة:', ly_fst:' سعر البيع = تكلفة + (إعلان × المعامل) + لوجستيك + ربح',
+  ly_sdesc:'النتائج المتوقعة عند نسب توصيل مختلفة.',
+  ly_th1:'النسبة', ly_th2:'الموصلة', ly_th3:'الإيراد',
+  ly_th4:'التكاليف', ly_th5:'صافي الربح', ly_th6:'العائد', ly_th7:'الحالة',
+
+  eu_ey:'الدفع عند الاستلام · السوق الأوروبي',
+  eu_t1:'حاسبة أرباح', eu_t2:'COD',
+  eu_sub:'معامل إعلاني مخصص — يتغير حسب أداء كل دولة أوروبية',
+  eu_c1:'٠١ — إعداد التسعير', eu_c2:'٠٢ — أداء الحملة',
+  eu_c3:'٠٣ — نتائج التسعير', eu_c4:'٠٤ — تحليل السيناريوهات',
+  eu_lpc:'تكلفة المنتج', eu_ldp:'صافي الربح المطلوب',
+  eu_lfc:'مصاريف اللوجستيك', eu_bfc:'على الموصلة فقط',
+  eu_lad:'تكلفة الإعلان / طلب',
+  eu_lmx:'معامل أمان الإعلانات', eu_bmx:'معامل الضرب',
+  eu_anote_pre:'← الاحتياطي الفعلي: $',
+  eu_lex:'سعر الصرف', eu_ltl:'إجمالي الطلبات',
+  eu_lcr:'نسبة التأكيد', eu_nconf:'المؤكدة:',
+  eu_ldr:'نسبة التوصيل', eu_ndeliv:'الموصلة:',
+  eu_lts:'إجمالي الإنفاق', eu_lcs:'الطلبات المؤكدة', eu_lds:'الطلبات الموصلة',
+  eu_rtpu:'سعر البيع المستهدف', eu_rtpl:'السعر (يورو)', eu_reur:'يورو',
+  eu_rcpa:'تكلفة الاستحواذ الفعلية', eu_rcpas:'التكلفة / مؤكد',
+  eu_rnp:'صافي الربح', eu_rnps:'الحملة الحالية',
+  eu_rbe:'نقطة التعادل', eu_rbes:'أدنى نسبة توصيل',
+  eu_rrev:'إجمالي الإيرادات', eu_rrevs:'الطلبات الموصلة',
+  eu_beth:'عتبة التعادل', eu_becur:'الحالي:', eu_bewrd:'نسبة توصيل',
+  eu_bemark_pre:'نقطة التعادل:',
+  eu_flbl:'المعادلة:', eu_fst:' سعر البيع = تكلفة + (إعلان × المعامل) + لوجستيك + ربح',
+  eu_sdesc:'النتائج المتوقعة عند نسب توصيل مختلفة.',
+  eu_th1:'النسبة', eu_th2:'الموصلة', eu_th3:'الإيراد',
+  eu_th4:'التكاليف', eu_th5:'صافي الربح', eu_th6:'العائد', eu_th7:'الحالة',
+
+  bProfit:'مربح', bBreak:'متعادل', bLoss:'خطر خسارة',
+  sOkT:'✓ منطقة الربح',   sOkM  :d=>`التوصيل ${d}% يتجاوز 25% — الحملة مربحة.`,
+  sWnT:'⚠ منطقة الحافة', sWnM  :d=>`التوصيل ${d}% بين 20–25% — هامش ضيق.`,
+  sBdT:'✕ خطر مرتفع',     sBdM  :d=>`التوصيل ${d}% أقل من 20% — خطر خسارة.`,
+  fmtF:(pc,buf,mx,fc,dp,tp)=>`$${pc} + $${buf}(إعلان×${mx}) + $${fc} + $${dp} = $${tp}`,
+}};
+
+/* ── State ───────────────────────────────────────── */
+let lang   = localStorage.getItem('cod_lang')   || 'en';
+let theme  = localStorage.getItem('cod_theme')  || 'blue';
+let market = localStorage.getItem('cod_market') || 'libya';
+const T = () => LANG[lang];
+
+/* ── DOM helpers ─────────────────────────────────── */
+const el  = id => document.getElementById(id);
+const txt = (id,v) => { const e=el(id); if(e) e.textContent=v; };
+const nv  = id => parseFloat(el(id).value)||0;
+const fmt = n  => '$'+Math.abs(n).toFixed(2);
+
+/* ── Modal ───────────────────────────────────────── */
+function openModal()  { el('mOverlay').classList.add('open');  document.body.style.overflow='hidden'; }
+function closeModal() { el('mOverlay').classList.remove('open'); document.body.style.overflow=''; }
+function handleOvClick(e){ if(e.target===el('mOverlay')) closeModal(); }
+document.addEventListener('keydown', e => { if(e.key==='Escape'){ closeModal(); closeTP(); }});
+
+/* ── Market switch ───────────────────────────────── */
+function switchMarket(m){
+  market=m; localStorage.setItem('cod_market',m);
+  el('view-libya').classList.toggle('on', m==='libya');
+  el('view-europe').classList.toggle('on', m==='europe');
+  el('tab-ly').classList.toggle('active', m==='libya');
+  el('tab-eu').classList.toggle('active', m==='europe');
+  m==='libya' ? calcLibya() : calcEurope();
+}
+
+/* ── Theme panel ─────────────────────────────────── */
+function toggleThemePanel(e){ e.stopPropagation(); el('themePanel').classList.toggle('open'); }
+function closeTP(){ el('themePanel').classList.remove('open'); }
+document.addEventListener('click', e=>{
+  if(!el('themePanel').contains(e.target) && !el('themeBtn').contains(e.target)) closeTP();
+});
+
+function applyTheme(t){
+  theme=t; localStorage.setItem('cod_theme',t);
+  document.documentElement.setAttribute('data-theme',t);
+  syncThemePanel(); closeTP();
+}
+function syncThemePanel(){
+  document.querySelectorAll('.topt').forEach(o => o.classList.toggle('on', o.dataset.t===theme));
+}
+
+/* ── Language ────────────────────────────────────── */
+function toggleLang(){
+  lang = lang==='en' ? 'ar' : 'en';
+  localStorage.setItem('cod_lang',lang);
+  const h = document.documentElement;
+  h.setAttribute('data-lang',lang);
+  h.setAttribute('lang',lang);
+  h.setAttribute('dir', lang==='ar' ? 'rtl' : 'ltr');
+  fixExchangePad();
+  applyLang();
+  calcLibya(); calcEurope();
+}
+function fixExchangePad(){
+  const ar = lang==='ar';
+  // ly_ex: prefix width ~56px when LYD/$, fix for RTL
+  const lyex = el('ly_ex');
+  if(lyex){ lyex.style.paddingLeft=ar?'13px':'56px'; lyex.style.paddingRight=ar?'56px':'13px'; }
+  const euex = el('eu_ex');
+  if(euex){ euex.style.paddingLeft=ar?'13px':'50px'; euex.style.paddingRight=ar?'50px':'13px'; }
+}
+
+/* ── Apply translations ──────────────────────────── */
+function applyLang(){
+  const L = T();
+  txt('tly',     L.tly); txt('teu', L.teu);
+  txt('lbl-app', L.lbl_app); txt('lbl-lang', L.lbl_lang);
+  txt('themeLbl',L.themeLbl); txt('langLbl', L.langLbl);
+  txt('ft-about',L.ft_about);
+  txt('tp-hdr',  L.tp_hdr);
+  txt('tn-blue', L.tn_blue); txt('tn-amber',L.tn_amber);
+  txt('tn-sage', L.tn_sage); txt('tn-purple',L.tn_purple);
+  [
+    'm_ey','m_tit','m_bod','m_dtag','m_dtit','m_ddesc','m_cta',
+    'ly_ey','ly_t1','ly_t2','ly_sub',
+    'ly_c1','ly_c2','ly_c3','ly_c4',
+    'ly_lpc','ly_ldp','ly_lfc','ly_bfc','ly_lad','ly_lmx','ly_bmx',
+    'ly_lex','ly_ltl','ly_lcr','ly_nconf','ly_ldr','ly_ndeliv',
+    'ly_lts','ly_lcs','ly_lds',
+    'ly_rtpu','ly_rtpl','ly_rlyd','ly_rcpa','ly_rcpas',
+    'ly_rnp','ly_rnps','ly_rbe','ly_rbes','ly_rrev','ly_rrevs',
+    'ly_beth','ly_becur','ly_bewrd','ly_flbl','ly_fst','ly_sdesc',
+    'ly_th1','ly_th2','ly_th3','ly_th4','ly_th5','ly_th6','ly_th7',
+    'eu_ey','eu_t1','eu_t2','eu_sub',
+    'eu_c1','eu_c2','eu_c3','eu_c4',
+    'eu_lpc','eu_ldp','eu_lfc','eu_bfc','eu_lad','eu_lmx','eu_bmx',
+    'eu_lex','eu_ltl','eu_lcr','eu_nconf','eu_ldr','eu_ndeliv',
+    'eu_lts','eu_lcs','eu_lds',
+    'eu_rtpu','eu_rtpl','eu_reur','eu_rcpa','eu_rcpas',
+    'eu_rnp','eu_rnps','eu_rbe','eu_rbes','eu_rrev','eu_rrevs',
+    'eu_beth','eu_becur','eu_bewrd','eu_flbl','eu_fst','eu_sdesc',
+    'eu_th1','eu_th2','eu_th3','eu_th4','eu_th5','eu_th6','eu_th7',
+  ].forEach(id => { if(L[id]!==undefined) txt(id,L[id]); });
+}
+
+/* ── Core COD calculation engine ────────────────── */
+function runCalc(p, isEU){
+  const L   = T();
+  const pc  = nv(p+'pc'),  dp  = nv(p+'dp'),
+        fc  = nv(p+'fc'),  ad  = nv(p+'ad'),
+        mx  = nv(p+'mx') || (isEU?2:3),
+        exR = nv(p+'ex'),
+        tl  = nv(p+'tl'),
+        cr  = nv(p+'cr') / 100,
+        dr  = nv(p+'dr') / 100;
+
+  /* Buffer */
+  const buf = ad * mx;
+  const ane = el(p+'anote');
+  if(ane) ane.innerHTML = L[p+'anote_pre'] + '$<span id="'+p+'abuf">'+buf.toFixed(2)+'</span>';
+
+  /* Counts */
+  const conf  = Math.round(tl * cr);
+  const deliv = Math.round(conf * dr);
+  txt(p+'conf',  conf);  txt(p+'deliv', deliv);
+  txt(p+'cstat', conf);  txt(p+'dstat', deliv);
+
+  /* Target price */
+  const tUSD = pc + buf + fc + dp;
+  const tAlt = tUSD * exR;
+  txt(p+'tusd', fmt(tUSD));
+  if(isEU){ const e=el(p+'teur'); if(e) e.textContent=tAlt.toFixed(2)+' EUR'; }
+  else     { const e=el(p+'tlyd'); if(e) e.textContent=tAlt.toFixed(2)+' LYD'; }
+
+  /* Spend / CPA */
+  const spend = tl * ad;
+  txt(p+'spend', fmt(spend));
+  txt(p+'cpa',   fmt(conf>0 ? spend/conf : 0));
+
+  /* P&L */
+  const rev    = deliv * tUSD;
+  const costs  = deliv*(pc+fc) + spend;
+  const profit = rev - costs;
+  txt(p+'rev', fmt(rev));
+  const npe = el(p+'np');
+  if(npe){ npe.textContent=(profit>=0?'+':'-')+fmt(profit); npe.className='ri-val '+(profit>=0?'ok':'bad'); }
+
+  /* Breakeven DR% */
+  const margin = tUSD - pc - fc;
+  let beDR = 0;
+  if(conf>0 && margin>0) beDR = (spend/(conf*margin))*100;
+  txt(p+'be', beDR.toFixed(1)+'%');
+
+  /* Bar */
+  const cdr  = dr*100;
+  const fill = el(p+'bfill');
+  if(fill){ fill.style.width=Math.min(cdr,100)+'%'; fill.style.background=cdr>=beDR?'var(--ok)':'var(--bad)'; }
+  txt(p+'cdr', cdr.toFixed(1)+'%');
+  txt(p+'bemark', L[p+'bemark_pre']+' '+beDR.toFixed(1)+'%');
+
+  /* Safety banner */
+  const sb=el(p+'sbanner'), sd=el(p+'sdot'), drs=cdr.toFixed(1);
+  if(sb&&sd){
+    if(cdr>25){
+      sb.className='sbanner ok';   sd.className='sdot ok';
+      txt(p+'stit',L.sOkT); txt(p+'smsg',L.sOkM(drs));
+    } else if(cdr>=20){
+      sb.className='sbanner warn'; sd.className='sdot warn';
+      txt(p+'stit',L.sWnT); txt(p+'smsg',L.sWnM(drs));
+    } else {
+      sb.className='sbanner bad';  sd.className='sdot bad';
+      txt(p+'stit',L.sBdT); txt(p+'smsg',L.sBdM(drs));
+    }
+  }
+
+  /* Formula */
+  txt(p+'fdsp', L.fmtF(pc.toFixed(2), buf.toFixed(2), mx, fc.toFixed(2), dp.toFixed(2), tUSD.toFixed(2)));
+
+  /* Scenarios */
+  buildScenarios(p, tUSD, pc, fc, spend, conf, L);
+
+  /* Persist */
+  save(p);
+}
+
+function calcLibya() { runCalc('ly_', false); }
+function calcEurope(){ runCalc('eu_', true);  }
+
+/* ── Scenario table ──────────────────────────────── */
+function buildScenarios(p, tUSD, pc, fc, spend, conf, L){
+  const tb = el(p+'tbody'); if(!tb) return;
+  tb.innerHTML = '';
+  [15,25,40,60,75].forEach(rate=>{
+    const d=Math.round(conf*rate/100), rev=d*tUSD,
+          costs=d*(pc+fc)+spend, profit=rev-costs,
+          roi=costs>0?(profit/costs)*100:0;
+    let cls,lbl,rc;
+    if(rate>25)       {cls='ok';   lbl=L.bProfit; rc='var(--ok)';}
+    else if(rate>=20) {cls='warn'; lbl=L.bBreak;  rc='var(--warn)';}
+    else              {cls='bad';  lbl=L.bLoss;   rc='var(--bad)';}
+    const pcolor=profit>=0?'var(--ok)':'var(--bad)';
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td><span class="scen-rate" style="color:${rc}">${rate}%</span></td>
+      <td>${d}</td>
+      <td>$${rev.toFixed(2)}</td>
+      <td>$${costs.toFixed(2)}</td>
+      <td style="color:${pcolor};font-weight:700">${profit>=0?'+':'-'}$${Math.abs(profit).toFixed(2)}</td>
+      <td style="color:${pcolor}">${roi>=0?'+':''}${roi.toFixed(1)}%</td>
+      <td><span class="sbadge ${cls}">${lbl}</span></td>`;
+    tb.appendChild(tr);
+  });
+}
+
+/* ── localStorage ────────────────────────────────── */
+const FLDS = {
+  'ly_':['ly_pc','ly_dp','ly_fc','ly_ad','ly_mx','ly_ex','ly_tl','ly_cr','ly_dr'],
+  'eu_':['eu_pc','eu_dp','eu_fc','eu_ad','eu_mx','eu_ex','eu_tl','eu_cr','eu_dr'],
+};
+function save(p){
+  const d={};
+  FLDS[p].forEach(id=>{ const e=el(id); if(e) d[id]=e.value; });
+  localStorage.setItem('cod_in_'+p, JSON.stringify(d));
+}
+function loadAll(){
+  ['ly_','eu_'].forEach(p=>{
+    try{
+      const raw=localStorage.getItem('cod_in_'+p); if(!raw)return;
+      Object.entries(JSON.parse(raw)).forEach(([id,v])=>{ const e=el(id); if(e) e.value=v; });
+    }catch(_){}
+  });
+}
+
+/* ── Boot ────────────────────────────────────────── */
+(function init(){
+  const h = document.documentElement;
+  h.setAttribute('data-theme', theme);
+  h.setAttribute('data-lang',  lang);
+  h.setAttribute('lang',       lang);
+  h.setAttribute('dir',        lang==='ar'?'rtl':'ltr');
+  loadAll();
+  applyLang();
+  syncThemePanel();
+  fixExchangePad();
+  switchMarket(market);
+  /* Warm-up hidden market */
+  market==='libya' ? calcEurope() : calcLibya();
+})();
+</script>
+</body>
+</html>
